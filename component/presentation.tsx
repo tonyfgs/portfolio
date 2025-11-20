@@ -6,7 +6,7 @@ export function Presentation() {
             <div className="container mx-auto px-6 text-center">
 
                 <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-8 leading-tight text-balance">
-                    j'aime le caca
+                    Je m'appelle Tony
                 </h1>
 
 
