@@ -9,12 +9,14 @@ const skills = [
     { name: "Angular", size: "large" },
     { name: "HTML/CSS", size: "small" },
     { name: "SQL", size: "small" },
+    { name: "Next.js", size: "large" },
+    { name: "Tailwind", size: "medium" },
 ]
 
 const sizeClasses: Record<string, string> = {
-    small: "text-sm px-4 py-2",
-    medium: "text-base px-5 py-2.5",
-    large: "text-lg px-6 py-3",
+    small: "text-xs px-4 py-2 border-white/5",
+    medium: "text-sm px-5 py-2.5 border-white/10",
+    large: "text-base px-6 py-3 border-white/10 font-medium",
 }
 
 export function Skills() {
@@ -27,64 +29,63 @@ export function Skills() {
         wrappers.forEach((wrapper) => {
             const element = wrapper as HTMLElement;
 
-            // 1. VITESSE : Très lent (entre 12s et 20s)
-            // C'est ce qui donne l'effet apaisant.
-            const duration = 12 + Math.random() * 8;
-
-            // 2. DÉLAI : Démarrage aléatoire dans le passé
+            // Paramètres de mouvement organique "Lent et fluide"
+            const duration = 15 + Math.random() * 10; // Plus lent (15-25s)
             const delay = Math.random() * -20;
 
-            // 3. DISTANCE : Mouvements courts (seulement +/- 15px)
-            // On évite les grands déplacements qui fatiguent l'œil.
-            const tx1 = (Math.random() * 30) - 15;
-            const ty1 = (Math.random() * 30) - 15;
+            // Mouvements aléatoires sur les axes X et Y
+            const tx1 = (Math.random() * 40) - 20;
+            const ty1 = (Math.random() * 40) - 20;
+            const tx2 = (Math.random() * 40) - 20;
+            const ty2 = (Math.random() * 40) - 20;
 
-            const tx2 = (Math.random() * 30) - 15;
-            const ty2 = (Math.random() * 30) - 15;
+            // Rotation légère pour l'effet de flottement
+            const r1 = (Math.random() * 15) - 7.5;
+            const r2 = (Math.random() * 15) - 7.5;
 
-            // 4. ROTATION : Très subtile (+/- 5 degrés max)
-            const r1 = (Math.random() * 10) - 5;
-            const r2 = (Math.random() * 10) - 5;
-
-            // Application des variables CSS
             element.style.setProperty('--tx1', `${tx1}px`);
             element.style.setProperty('--ty1', `${ty1}px`);
             element.style.setProperty('--tx2', `${tx2}px`);
             element.style.setProperty('--ty2', `${ty2}px`);
-
             element.style.setProperty('--r1', `${r1}deg`);
             element.style.setProperty('--r2', `${r2}deg`);
-
             element.style.animationDuration = `${duration}s`;
             element.style.animationDelay = `${delay}s`;
         })
     }, [])
 
     return (
-        <div ref={containerRef} className="flex flex-wrap gap-6 justify-center items-center min-h-[200px]">
+        <div ref={containerRef} className="flex flex-wrap gap-4 justify-center items-center min-h-[350px] p-4 relative overflow-hidden">
+
+            <div className="absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#8B5CF6]/10 blur-[80px] rounded-full pointer-events-none" />
+
             {skills.map((skill, index) => (
-                // WRAPPER : Gère le flottement lent
                 <div
                     key={index}
-                    className="skill-wrapper animate-float-organic will-change-transform"
+                    className="skill-wrapper animate-float-organic will-change-transform z-10"
                 >
-                    {/* BULLE : Gère le style et le hover rapide */}
                     <div
                         className={`
                             ${sizeClasses[skill.size]} 
                             rounded-full 
-                            bg-primary-foreground/5 
-                            border border-primary-foreground/20 
-                            text-primary-foreground/90
-                            backdrop-blur-[2px]
-                            shadow-sm
                             
-                            hover:bg-primary-foreground/15 
-                            hover:border-primary-foreground/40
+                            /* STYLE GLASS (Verre sombre) */
+                            bg-white/[0.03] 
+                            backdrop-blur-md 
+                            border 
+                            text-gray-300
+                            shadow-lg shadow-black/20
+
+                            /* INTERACTIONS */
+                            hover:bg-[#8B5CF6]/20 
+                            hover:border-[#8B5CF6]/50
+                            hover:text-white
+                            hover:shadow-[0_0_30px_-5px_rgba(139,92,246,0.6)]
                             hover:scale-110 
-                            hover:text-primary-foreground
+                            
                             transition-all duration-500 ease-out 
                             cursor-default
+                            tracking-wide
                         `}
                     >
                         {skill.name}

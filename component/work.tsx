@@ -170,7 +170,7 @@ export function Work() {
                 >
                     <div className="flex-shrink-0 w-[calc(50vw-300px)]" />
 
-                    {projects.map((project, index) => (
+                    {projects.map((project: Project, index: number) => (
                         <Card
                             key={`${project.title}-${index}`}
                             ref={el => (cardRefs.current[index] = el)}
