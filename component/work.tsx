@@ -1,13 +1,13 @@
 "use client"
 
 import Image from "next/image"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { useState, useRef, useEffect } from "react"
-import { Card } from "@/component/ui/card"
-import { Button } from "./ui/button"
+import {ChevronLeft, ChevronRight} from "lucide-react"
+import {useState, useRef, useEffect} from "react"
+import {Card} from "@/component/ui/card"
+import {Button} from "./ui/button"
 
-import { WorkModal} from "@/component/work-modal";
-import {Project} from "@/model/project";
+import {WorkModal} from "@/component/work-modal";
+import {currentProject, Project} from "@/model/project";
 
 export function Work() {
     const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -53,11 +53,7 @@ export function Work() {
     ]
 
     const bufferSize = 2
-    const projects = [
-        ...originalProjects.slice(-bufferSize),
-        ...originalProjects,
-        ...originalProjects.slice(0, bufferSize),
-    ]
+    const projects = currentProject;
 
     const [centerIndex, setCenterIndex] = useState(bufferSize)
     const [isTransitioning, setIsTransitioning] = useState(false)
@@ -78,7 +74,7 @@ export function Work() {
         scrollEndTimeout.current = setTimeout(() => {
             if (!scrollContainerRef.current || isTransitioning) return
             const container = scrollContainerRef.current
-            const { scrollLeft, clientWidth } = container
+            const {scrollLeft, clientWidth} = container
             const containerCenter = scrollLeft + clientWidth / 2
             let closestIndex = 0
             let minDistance = Infinity
@@ -108,7 +104,7 @@ export function Work() {
             container.offsetLeft -
             container.clientWidth / 2 +
             cardElement.clientWidth / 2
-        container.scrollTo({ left: scrollLeft, behavior })
+        container.scrollTo({left: scrollLeft, behavior})
     }
 
     useEffect(() => {
@@ -140,8 +136,7 @@ export function Work() {
         if (centerIndex >= originalProjects.length + bufferSize) {
             const newIndex = centerIndex - originalProjects.length
             handleTeleport(newIndex, scrollMethod === "manual")
-        }
-        else if (centerIndex < bufferSize) {
+        } else if (centerIndex < bufferSize) {
             const newIndex = centerIndex + originalProjects.length
             handleTeleport(newIndex, scrollMethod === "manual")
         }
@@ -154,8 +149,11 @@ export function Work() {
     return (
         <section id="work" className="bg-background relative">
             <div className="relative group">
-                <Button variant="ghost" size="lg" onClick={() => scroll("left")} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur hover:bg-background/90 opacity-0 group-hover:opacity-100 transition-opacity" disabled={isTransitioning}>
-                    <ChevronLeft className="h-8 w-8" />
+                <h1 className="text-white dark:text-white[50]">My work</h1>
+                <Button variant="ghost" size="lg" onClick={() => scroll("left")}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur hover:bg-background/90 opacity-0 group-hover:opacity-100 transition-opacity"
+                        disabled={isTransitioning}>
+                    <ChevronLeft className="h-8 w-8"/>
                 </Button>
 
                 <div
@@ -168,7 +166,7 @@ export function Work() {
                         scrollSnapType: "x mandatory",
                     }}
                 >
-                    <div className="flex-shrink-0 w-[calc(50vw-300px)]" />
+                    <div className="flex-shrink-0 w-[calc(50vw-300px)]"/>
 
                     {projects.map((project: Project, index: number) => (
                         <Card
@@ -180,24 +178,26 @@ export function Work() {
                                     ? "scale-100 opacity-100 z-10 shadow-xl"
                                     : "scale-90 opacity-50 hover:opacity-75"
                             }`}
-                            style={{ scrollSnapAlign: "center" }}
+                            style={{scrollSnapAlign: "center"}}
                         >
                             <div className="p-6 items-center">
                                 <h3 className="text-xl font-bold">{project.title}</h3>
                                 <p className="text-sm ">{project.category}</p>
                             </div>
                             <div className="aspect-[16/9] relative">
-                                {/* UPDATED: Using imagePresentation */}
-                                <Image src={project.imagePresentation} alt={project.title} fill className="object-contain" />
+                                <Image src={project.imagePresentation} alt={project.title} fill
+                                       className="object-contain"/>
                             </div>
                         </Card>
                     ))}
 
-                    <div className="flex-shrink-0 w-[calc(50vw-300px)]" />
+                    <div className="flex-shrink-0 w-[calc(50vw-300px)]"/>
                 </div>
 
-                <Button variant="ghost" size="lg" onClick={() => scroll("right")} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur hover:bg-background/90 opacity-0 group-hover:opacity-100 transition-opacity" disabled={isTransitioning}>
-                    <ChevronRight className="h-8 w-8" />
+                <Button variant="ghost" size="lg" onClick={() => scroll("right")}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur hover:bg-background/90 opacity-0 group-hover:opacity-100 transition-opacity"
+                        disabled={isTransitioning}>
+                    <ChevronRight className="h-8 w-8"/>
                 </Button>
             </div>
 

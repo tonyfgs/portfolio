@@ -5,7 +5,6 @@ import { X } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/component/ui/button"
 
-// Define the Project type structure
 export type Project = {
     title: string;
     imagePresentation: string;
@@ -21,7 +20,6 @@ interface WorkModalProps {
 
 export function WorkModal({ project, onClose }: WorkModalProps) {
 
-    // Lock body scroll when the modal is open
     useEffect(() => {
         if (project) {
             document.body.style.overflow = 'hidden';
@@ -31,38 +29,35 @@ export function WorkModal({ project, onClose }: WorkModalProps) {
         };
     }, [project]);
 
-    // If no project is selected, do not render anything
     if (!project) return null;
 
     return (
         <div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#050505]/90 backdrop-blur-md animate-in fade-in duration-300"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-white/50 dark:bg-white/[0.009] backdrop-blur-md animate-in fade-in duration-300"
             onClick={onClose}
         >
             <div
                 className="
                     relative w-full max-w-5xl max-h-[90vh] overflow-y-auto
-                    bg-[#0a0a0a] border border-white/10
-                    text-white rounded-3xl shadow-[0_0_50px_-10px_rgba(139,92,246,0.15)]
+                    bg-white/50 dark:bg-white/[0.09]
+                    text-white dark: rounded-3xl shadow-[0_0_50px_-10px_rgba(139,92,246,0.15)]
                     animate-in zoom-in-95 duration-300
                     scrollbar-hide
                 "
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Floating Close Button */}
+
                 <Button
                     variant="ghost"
-                    size="icon"
                     className="fixed top-6 right-6 z-50 bg-black/50 hover:bg-white/10 text-white rounded-full border border-white/10 backdrop-blur-md transition-all hover:rotate-90 duration-300"
                     onClick={onClose}
                 >
                     <X className="h-5 w-5" />
                 </Button>
 
-                {/* --- HEADER IMAGE (Presentation) --- */}
-                <div className="relative h-[400px] w-full bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] flex items-center justify-center overflow-hidden group">
+                <div className="relative h-[400px] w-full bg-white/50 dark:bg-white/10 flex items-center justify-center overflow-hidden group">
 
-                    {/* Glow effect behind the image */}
+
                     <div className="absolute inset-0 bg-[#8B5CF6]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
                     <Image
@@ -72,8 +67,6 @@ export function WorkModal({ project, onClose }: WorkModalProps) {
                         className="object-contain p-8 z-10 drop-shadow-2xl transition-transform duration-700 group-hover:scale-105"
                     />
 
-                    {/* Gradient fade at bottom */}
-                    <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0a] to-transparent z-20" />
                 </div>
 
                 {/* --- CONTENT SECTION --- */}
